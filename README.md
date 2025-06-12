@@ -1,6 +1,6 @@
 # 🧙‍♂️ "ConsoleAPPWOW" – Bot Discord World of Warcraft
 
-Bienvenue dans **ConsoleAPPWOW**, un bot Discord immersif dédié à **World of Warcraft** !  
+Bienvenue dans **WowInfoGame**, un bot Discord immersif dédié à **World of Warcraft** !  
 Idéal pour les **débutants curieux** ou les **vétérans nostalgiques**, ce bot propose des infos utiles, des quizzes, des builds, du lore, des raids, et même des vidéos 🤩
 
 ---
