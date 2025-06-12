@@ -499,6 +499,59 @@ namespace WowGameInfo
 
                 await RespondAsync(embed: embed, components: builder.Build());
             }
+            [SlashCommand("extensions", "Liste toutes les extensions WoW avec leurs liens.")]
+            public async Task ExtensionsAsync()
+            {
+                var embed = new EmbedBuilder()
+                    .WithTitle("📦 Extensions majeures de World of Warcraft")
+                    .WithDescription("Voici la liste complète des extensions :")
+                    .WithColor(Color.DarkGreen)
+                    .AddField("Classic", "[wowwiki](https://wowwiki-archive.fandom.com/wiki/World_of_Warcraft:_Classic)")
+                    .AddField("Burning Crusade", "[wowhead](https://www.wowhead.com/tbc/)")
+                    .AddField("Wrath of the Lich King", "[wiki](https://wowpedia.fandom.com/wiki/Wrath_of_the_Lich_King)")
+                    .AddField("Mists of Pandaria", "[info](https://wowpedia.fandom.com/wiki/Mists_of_Pandaria)")
+                    .AddField("Dragonflight", "[site](https://worldofwarcraft.blizzard.com/en-us/dragonflight)")
+                    .Build();
+                await RespondAsync(embed: embed);
+            }
+            [SlashCommand("youtube", "Chaînes YouTube utiles pour les joueurs WoW.")]
+            public async Task YouTubeAsync()
+            {
+                var embed = new EmbedBuilder()
+                    .WithTitle("📺 Chaînes YouTube pour t'informer sur WoW")
+                    .WithColor(Color.Purple)
+                    .AddField("Blizzard (Officiel)", "https://www.youtube.com/@BlizzardEnt")
+                    .AddField("Icy Veins", "https://www.youtube.com/@icyveins")
+                    .AddField("Nixxiom (Lore & Humor)", "https://www.youtube.com/@Nixxiom")
+                    .AddField("HazelNuttyGames (Guides)", "https://www.youtube.com/@HazelNuttygames")
+                    .Build();
+                await RespondAsync(embed: embed);
+            }
+            [SlashCommand("lore-sites", "Sites à consulter pour le lore de WoW.")]
+            public async Task LoreSitesAsync()
+            {
+                var embed = new EmbedBuilder()
+                    .WithTitle("📘 Sites pour explorer l'histoire de WoW")
+                    .WithColor(Color.Blue)
+                    .AddField("Wowpedia", "https://wowpedia.fandom.com")
+                    .AddField("Wowhead Lore", "https://www.wowhead.com/lore-guides")
+                    .AddField("Chronicles Fanpage", "https://warcraftchronicle.com")
+                    .Build();
+                await RespondAsync(embed: embed);
+            }
+            [SlashCommand("dps-meta", "Classement actuel des meilleurs DPS.")]
+            public async Task DpsMetaAsync()
+            {
+                var embed = new EmbedBuilder()
+                    .WithTitle("🔥 DPS META – Patch actuel")
+                    .WithColor(Color.Orange)
+                    .AddField("1️⃣ Démoniste Destruction", "Excellent en multi-cibles.")
+                    .AddField("2️⃣ Mage Givre", "Fort burst + contrôles.")
+                    .AddField("3️⃣ Chasseur Précision", "Très mobile.")
+                    .WithFooter("Source : icy-veins.com / warcraftlogs.com")
+                    .Build();
+                await RespondAsync(embed: embed);
+            }
 
             [ComponentInteraction("btn_quiz")]
             public async Task ShowQuizSection()
