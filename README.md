@@ -1,57 +1,64 @@
-# 🧙‍♂️ "ConsoleAPPWOW" – Bot Discord World of Warcraft
+# 🧙 WoWGameInfo – Discord Bot pour World of Warcraft
 
-Bienvenue dans **WowInfoGame**, un bot Discord immersif dédié à **World of Warcraft** !  
-Idéal pour les **débutants curieux** ou les **vétérans nostalgiques**, ce bot propose des infos utiles, des quizzes, des builds, du lore, des raids, et même des vidéos 🤩
-
----
-
-## ⚙️ Fonctionnalités principales
-
-- 📘 **Lore & Univers** : explore les races, classes, boss et extensions
-- 🧠 **Builds & Talents** : accès direct à Wowhead & Icy Veins
-- 🎮 **Quizz interactif** : questions WoW avec points et classement
-- 🏰 **Raids & Donjons** : liens vers les meilleures instances
-- 🎥 **Vidéos YouTube** : guides, trailers, addons
-- 📰 **Actus WoW** : patchs, hotfixes et flux RSS live
-- 🎯 **Extras funs** : anecdotes, défis, astuces, citations
+**WoWGameInfo** est un bot Discord immersif et interactif, conçu pour tous les passionnés de World of Warcraft : débutants, vétérans ou curieux. Il fournit des informations en temps réel sur les donjons, raids, builds, classes, races, actualités, quêtes et bien plus encore !
 
 ---
 
-## 📜 Commandes disponibles
+## 🎮 Fonctionnalités principales
 
-### Slash commands (`/`)
-- `/help` – Menu d’aide interactif avec boutons dynamiques
+- 🔍 **Infos sur le jeu** : classes, races, factions, capitales, zones
+- 🛠️ **Builds & Talents** : guides PvE Icy Veins, rotations, talents
+- 🧠 **Quiz & Points** : test de connaissances WoW + classement des joueurs
+- 📖 **Lore & Histoire** : accès rapide aux pages WoWpedia & Wowhead
+- 🏰 **Donjons et Raids** : par extension (Lich King, Legion, BfA…)
+- 🌐 **Actus en ligne** : news Blizzard & flux RSS Wowhead
+- 🎥 **Vidéos WoW** : trailers, builds, raids, addons, actualité
+- 🎯 **Défis & Astuces** : défis aléatoires, tips de jeu, anecdotes
+- ⏱️ **Heure & reset serveur EU** (CET)
+- 📊 **Meta DPS** : lien direct vers le classement actuel
 
-### Commandes texte (`!`)
-#### 🎮 Quiz
-- `!quiz`, `!reponse`, `!points`, `!classement`
+---
 
-#### 📘 Lore
-- `!info`, `!lore <perso>`, `!classes`, `!races`, `!factions`, `!extensions`, `!zones`, `!metiers`, `!role`, `!boss`, `!capitales`, `!serveurs`
+## ⚙️ Commandes disponibles (préfixe `!`)
 
-#### 🧠 Builds
-- `!build <classe>`, `!talents <classe>`, `!rotation <classe>`
+### 📌 Informations générales
+- `!info`, `!classes`, `!races`, `!factions`, `!zones`, `!extensions`, `!capitales`, `!serveurs`
 
-#### 🏰 Donjons & Raids
-- `!donjons`, `!raid <extension>` (`lichking`, `legion`, `bfa`)
+### 🧠 Builds & Optimisation
+- `!build <classe>`
+- `!rotation <classe>`
+- `!talents <classe>`
+- `!dpsmeta`
 
-#### 🎥 Vidéos
+### 📚 Lore & Exploration
+- `!lore <personnage>`
+- `!boss`
+- `!quetes`
+
+### ⚔️ Activités
+- `!donjons`
+- `!raid <extension>`
+- `!bg`
+- `!farm`, `!routefarm <ressource>`
+
+### 🎮 Quiz & Classement
+- `!quiz`, `!reponse <texte>`
+- `!points`, `!classement`
+
+### 💡 Divers
+- `!defi`, `!citation`, `!anecdote`, `!astuce`, `!faq`
+- `!reset`, `!heureeu`
+
+### 📰 News & Vidéos
+- `!news`, `!newsrss`
 - `!videointro`, `!videoraid`, `!videobuild <classe>`, `!videoaddon`, `!videoactualite`
 
-#### 📰 Actualités
-- `!news`, `!newsrss`
-
-#### 🧪 Extras
-- `!defi`, `!anecdote`, `!citation`, `!astuce`, `!faq`, `!quetes`, `!bg`, `!dpsmeta`
-
-#### 🕒 Infos serveurs
-- `!heureeu`, `!reset`
-
 ---
 
-## 🛠️ Prérequis & Lancement
+## 🚀 Lancer le bot localement
 
-1. Cloner le dépôt :
-   ```bash
-   git clone https://github.com/tonuser/ConsoleAPPWOW.git
-   cd ConsoleAPPWOW
+```bash
+git clone https://github.com/votre-utilisateur/WoWGameInfo.git
+cd WoWGameInfo
+dotnet restore
+dotnet run
