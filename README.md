@@ -1,70 +1,71 @@
-# 🧙‍♂️ WoWGameInfo – Discord Bot pour World of Warcraft
+# 🧙 WoWGameInfo – Discord Bot pour World of Warcraft
 
-WoWGameInfo est un bot Discord complet et interactif dédié à l’univers de **World of Warcraft**, conçu en **C# avec Discord.Net**. Il fournit des quiz, des guides, des vidéos, des liens utiles, des infos en temps réel et bien plus encore pour toutes les versions du jeu (Retail, Classic, MoP Classic, etc.).
+**WoWGameInfo** est un bot Discord communautaire dédié à l’univers de **World of Warcraft**, toutes extensions confondues (Classic, Retail, MoP, etc.). Il fournit des quiz, des infos, des vidéos, du lore, des builds, des routes de farm, des actualités, et bien plus encore !
+
+---
 
 ## ✨ Fonctionnalités principales
 
-- 🎮 **Quiz & Score** avec classement
-- 🧠 **Builds PvE**, rotations et talents
-- 📘 **Lore, races, classes, boss**
-- 🏰 **Raids, donjons, capitales**
-- 📦 **Addons, professions, métiers**
-- 📺 **Vidéos utiles** (guides, intro, actu)
-- 📰 **Actus WoW (flux RSS & news)**
-- ⏰ **Infos serveur en temps réel** (heure, reset)
-- 📈 **Meta DPS & PvP**
-- 🌿 **Farm routes, réputations, objectifs**
+### 🎮 Quiz & Classements
+- `!quiz` – Lance un quiz aléatoire sur WoW
+- `!reponse <ta_réponse>` – Tente ta chance
+- `!points` – Affiche ton score
+- `!classement` – Top 5 des joueurs
 
-## 📸 Aperçu
+### 📘 Lore & Histoire
+- `!lore <perso>` – Infos lore d’un personnage
+- `!boss`, `!zones`, `!capitales` – Univers du jeu
+- `!extensions`, `!factions`, `!classes`, `!races`
+- `!livreswow` – Romans officiels de Blizzard
+- `!lieuxrp` – Suggestions RP immersives
 
-![screenshot](./assets/preview-wowgameinfo.png)
+### 🛠️ Builds & Métiers
+- `!build <classe>` – Guide PvE Icy-Veins
+- `!rotation <classe>` – Rotation DPS
+- `!talents <classe>` – Arbre interactif Wowhead
+- `!métier <nom>` – Guide profession wow-professions
 
-## 🚀 Commandes disponibles
+### 🏰 Donjons & Raids
+- `!donjons` – Suggestions par niveau
+- `!raid <extension>` – Raids majeurs
+- `!reset` – Prochain reset hebdomadaire
 
-> Préfixe classique `!` + support slash `/commands`
+### 🎥 Vidéos & Actualités
+- `!videointro`, `!videoraid`, `!videobuild <classe>`, `!videoaddon`
+- `!videoactualite`, `!news`, `!newsrss`
+- `!tournoi` – Suivre l’eSport WoW
 
-### 🎮 Quiz
-- `!quiz` – Lancer un quiz aléatoire
-- `!reponse <ta_réponse>`
-- `!points` – Ton score actuel
-- `!classement` – Top 5 joueurs
+### 🌿 Farming & Conseils
+- `!routefarm <ressource>` – Zones conseillées
+- `!farm` – Spot conseillé
+- `!astuce`, `!citation`, `!anecdote`, `!defi`
 
-### 📘 Lore & Univers
-- `!lore <nom>` – L'histoire d’un perso
-- `!boss`, `!races`, `!classes`, `!zones`
-- `!factions`, `!metiers`, `!extensions`
+### 🔍 Recherches & Extras
+- `!recherche <terme>` – Résultats Wowhead
+- `!faq`, `!serveurs`, `!heureeu`
 
-### 🧠 Builds & Talents
-- `!build <classe>` – Guide PvE Icy Veins
-- `!rotation <classe>`
-- `!talents <classe>`
+---
 
-### 🏰 Raids et Donjons
-- `!raid <extension>` – Raids de WotLK, Legion, BFA
-- `!donjons` – Donjons populaires
+## 🚀 Slash Commands & Interaction UI
 
-### 📺 Vidéos
-- `!videointro`, `!videoraid`, `!videobuild <classe>`
-- `!videoaddon`, `!videoactualite`
+- `/help` – Menu interactif avec boutons par catégories
+- Boutons : 🎮 Quiz, 📘 Lore, 🧠 Builds, 🏰 Raids, 🎥 Vidéos
 
-### 📰 Infos & News
-- `!news` – Actu Blizzard
-- `!newsrss` – Flux RSS de Wowhead
-- `!heureeu`, `!reset` – Heure & reset hebdo
+---
 
-### 🛠️ Extras utiles
-- `!routefarm <ressource>` – Zones de farm
-- `!addons`, `!reputations`, `!objectifs`
-- `!pvpmeta`, `!dpsmeta`
-- `!faq`, `!capitales`, `!serveurs`
+## 🧠 Technologies
 
-## 🧪 Slash Commandes & Boutons
-- `/help` – Affiche un menu interactif
-- Intégration de composants interactifs (`buttons`, `select menus`, etc.)
+- `.NET 7 / 8+` avec C#
+- [Discord.Net v3.12+](https://github.com/discord-net/Discord.Net)
+- Support des **Commandes classiques** & **Slash**
+- Modules intégrés en classes C#
 
-## 🔧 Installation
+---
 
-1. Clone ce repo :
-   ```bash
-   git clone https://github.com/ton-profil/WoWGameInfoBot.git
-   cd WoWGameInfoBot
+## 🛠️ Installation
+
+```bash
+git clone https://github.com/ton-utilisateur/WowGameInfo.git
+cd WowGameInfo
+dotnet restore
+dotnet run
