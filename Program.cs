@@ -1,4 +1,4 @@
-﻿using Discord;
+using Discord;
 using Discord.Commands;
 using Discord.Interactions;
 using Discord.WebSocket;
@@ -44,7 +44,7 @@ namespace WowGameInfo
 
             await _commands.AddModulesAsync(Assembly.GetEntryAssembly(), _services);
 
-            string token = "Token Discord"; // ⚠️ Ne jamais laisser en clair
+            string token = "Token Discord Dev"; // ⚠️ Ne jamais laisser en clair
 
             await _client.LoginAsync(TokenType.Bot, token);
             await _client.StartAsync();
@@ -69,7 +69,7 @@ namespace WowGameInfo
 
         public class WowAdvancedModule : ModuleBase<SocketCommandContext>
         {
-           // [Command("talents")]
+            // [Command("talents")]
             public async Task TalentsAsync([Remainder] string classe)
             {
                 string url = $"https://www.wowhead.com/talent-calc/{classe.ToLower()}";
@@ -81,20 +81,44 @@ namespace WowGameInfo
                     .Build();
                 await ReplyAsync(embed: embed);
             }
+            private static readonly Dictionary<string, string> classMap = new()
+            {
+                ["demoniste"] = "warlock",
+                ["chevalier de la mort"] = "death-knight",
+                ["mage"] = "mage",
+                ["voleur"] = "rogue",
+                ["paladin"] = "paladin",
+                ["pretre"] = "priest",
+                ["guerrier"] = "warrior",
+                ["chasseur"] = "hunter",
+                ["chaman"] = "shaman",
+                ["druide"] = "druid",
+                ["moine"] = "monk",
+                ["chasseur de demons"] = "demon-hunter"
+            };
 
             [Command("build")]
             public async Task BuildAsync([Remainder] string classe)
             {
-                string classeLower = classe.ToLower();
-                string url = $"https://www.icy-veins.com/wow/{classeLower}-pve-guide";
+                string classeKey = classe.ToLower().Trim();
+                if (!classMap.TryGetValue(classeKey, out var slug))
+                {
+                    await ReplyAsync("❌ Classe inconnue. Exemples : `mage`, `demoniste`, `paladin`, etc.");
+                    return;
+                }
+
+                string url = $"https://www.icy-veins.com/wow/{slug}-pve-guide";
+
                 var embed = new EmbedBuilder()
                     .WithTitle($"⚔️ Build recommandé : {classe}")
                     .WithDescription("Guide PvE complet par Icy Veins.")
                     .WithUrl(url)
                     .WithColor(Color.DarkBlue)
                     .Build();
+
                 await ReplyAsync(embed: embed);
             }
+
 
             [Command("lore")]
             public async Task LoreAsync([Remainder] string perso)
@@ -108,7 +132,88 @@ namespace WowGameInfo
                     .Build();
                 await ReplyAsync(embed: embed);
             }
+            [Command("meta")]
+            public async Task MetaAsync([Remainder] string classe)
+            {
+                string url = $"https://www.icy-veins.com/wow/{classe.ToLower()}-dps-rankings-tier-list";
+                var embed = new EmbedBuilder()
+                    .WithTitle($"📈 Tier List / Meta pour {classe}")
+                    .WithDescription("Selon Icy Veins, voici les performances actuelles de la classe.")
+                    .WithUrl(url)
+                    .WithColor(Color.DarkMagenta)
+                    .Build();
+                await ReplyAsync(embed: embed);
+            }
 
+            [Command("evenement")]
+            public async Task EvenementAsync()
+            {
+                var embed = new EmbedBuilder()
+                    .WithTitle("🎉 Événements WoW en cours")
+                    .AddField("🔥 Fête du Feu", "Du 21 juin au 5 juillet")
+                    .AddField("🎪 Foire de Sombrelune", "Du 7 au 13 de chaque mois")
+                    .AddField("📦 Bonus Donjons", "Cette semaine : +25% récompenses de fin de donjon")
+                    .WithFooter("Pour plus d'infos : wowhead.com/events")
+                    .WithColor(Color.Orange)
+                    .Build();
+                await ReplyAsync(embed: embed);
+            }
+
+            [Command("nomrp")]
+            public async Task NomRpAsync([Remainder] string race)
+            {
+                string[] noms = race.ToLower() switch
+                {
+                    "orc" => new[] { "Gor'thaz", "Mokgrol", "Throgar" },
+                    "humain" => new[] { "Ellyra", "Darian", "Cedric" },
+                    "elfe" => new[] { "Sylvaria", "Lor'thael", "Thalindra" },
+                    _ => new[] { "Aeryn", "Kael", "Zun" }
+                };
+
+                string nom = noms[new Random().Next(noms.Length)];
+                await ReplyAsync($"🎭 Nom RP suggéré pour {race} : **{nom}**");
+            }
+
+            [Command("blaguewow")]
+            public async Task BlagueAsync()
+            {
+                string[] blagues = {
+            "Pourquoi les paladins n'ont pas peur des fantômes ? Parce qu'ils ont *lumière sacrée*!",
+            "Quel est le comble pour un démoniste ? De ne pas avoir d'amis infernaux.",
+            "Les taurens n'ont pas de monture. Ils sont leur propre monture."
+        };
+                await ReplyAsync($"😂 {blagues[new Random().Next(blagues.Length)]}");
+            }
+
+            [Command("routefarm")]
+            public async Task RouteFarmAsync([Remainder] string ressource)
+            {
+                var embed = new EmbedBuilder()
+                    .WithTitle($"🌿 Route de farm recommandée pour : {ressource}")
+                    .WithDescription(
+                        $"Voici quelques zones efficaces pour récolter **{ressource}** :\n" +
+                        "• **Hautes-terres d'Arathi**\n" +
+                        "• **Vallée de Strangleronce**\n" +
+                        "• **Zuldazar**\n\n" +
+                        "🔗 [Voir d'autres guides sur wow-professions.com](https://www.wow-professions.com)")
+                    .WithColor(Color.Green)
+                    .Build();
+
+                await ReplyAsync(embed: embed);
+            }
+
+
+            [Command("astuceclasse")]
+            public async Task AstuceClasseAsync([Remainder] string classe)
+            {
+                string[] astuces = classe.ToLower() switch
+                {
+                    "mage" => new[] { "Utilise Nova de givre avant de blink pour survivre.", "Économise ton burst pour les packs de trashs." },
+                    "druide" => new[] { "Utilise les soins HOT avant les gros dégâts.", "Pense à Cyclone en PvP !" },
+                    _ => new[] { "Utilise toujours ton cooldown défensif avant les gros dégâts." }
+                };
+                await ReplyAsync($"💡 Astuce pour {classe} : {astuces[new Random().Next(astuces.Length)]}");
+            }
             [Command("donjons")]
             public async Task DonjonsAsync()
             {
@@ -567,7 +672,69 @@ namespace WowGameInfo
 
             await ReplyAsync($"❓ **Quiz** : {quiz.Question}\nRéponds avec `!reponse ta_réponse`");
         }
+        [Command("build mop")]
+        public async Task BuildMopAsync([Remainder] string classe)
+        {
+            string url = $"https://www.icy-veins.com/wow/{classe.ToLower()}-pve-guide";
+            var embed = new EmbedBuilder()
+                .WithTitle($"⚔️ Build MoP – {classe}")
+                .WithDescription("Guide PvE complet pour MoP Classic (non officiel).")
+                .WithUrl(url)
+                .WithColor(Color.Orange)
+                .Build();
 
+            await ReplyAsync(embed: embed);
+        }
+
+        [Command("raid mop")]
+        public async Task RaidMopAsync()
+        {
+            var embed = new EmbedBuilder()
+                .WithTitle("🏯 Raids emblématiques – MoP Classic")
+                .WithColor(Color.DarkRed)
+                .AddField("Cœur de la peur", "[Wowhead](https://www.wowhead.com/zone=6297)")
+                .AddField("Terrasse Printanière", "[Wowhead](https://www.wowhead.com/zone=6622)")
+                .AddField("Siège d’Orgrimmar", "[Wowhead](https://www.wowhead.com/zone=6738)")
+                .AddField("Trône du Tonnerre", "[Wowhead](https://www.wowhead.com/zone=6623)");
+
+            await ReplyAsync(embed: embed.Build());
+        }
+
+        [Command("zones mop")]
+        public async Task ZonesMopAsync()
+        {
+            var embed = new EmbedBuilder()
+                .WithTitle("🌿 Zones majeures – Pandarie")
+                .WithColor(Color.Green)
+                .WithDescription("Explore les zones suivantes :\n- Vallée des Quatre vents\n- Sommet de Kun-Lai\n- Steppes de Tanglong\n- Vallée de l’Éternel printemps")
+                .WithUrl("https://www.wowhead.com/zones/mop");
+
+            await ReplyAsync(embed: embed.Build());
+        }
+
+        [Command("lore mop")]
+        public async Task LoreMopAsync()
+        {
+            var embed = new EmbedBuilder()
+                .WithTitle("📖 Lore – MoP")
+                .WithColor(Color.Purple)
+                .WithDescription("La Pandarie est un continent caché longtemps inconnu d'Azeroth, protégé par les Pandarens.\n\nL'invasion des Sha, les mogu, et le siège d'Orgrimmar ont marqué cette ère.")
+                .WithUrl("https://wowpedia.fandom.com/wiki/Mists_of_Pandaria");
+
+            await ReplyAsync(embed: embed.Build());
+        }
+
+        [Command("metier mop")]
+        public async Task MetierMopAsync()
+        {
+            var embed = new EmbedBuilder()
+                .WithTitle("🛠️ Métiers recommandés – MoP")
+                .WithColor(Color.Blue)
+                .WithDescription("🔹 Cuisine Pandarène (Banquets, nourriture OP)\n🔹 Calligraphie pour parchemins et talents\n🔹 Forge & Enchantement pour optimisations d’équipement")
+                .WithUrl("https://www.wow-professions.com/mop-profession-leveling");
+
+            await ReplyAsync(embed: embed.Build());
+        }
         [Command("reponse")]
         public async Task ReponseAsync([Remainder] string userAnswer)
         {
@@ -749,7 +916,8 @@ namespace WowGameInfo
             using var stream = await client.GetStreamAsync(url);
             var xml = XDocument.Load(stream);
             var items = xml.Descendants("item").Take(5)
-                .Select(x => new {
+                .Select(x => new
+                {
                     Title = (string)x.Element("title"),
                     Link = (string)x.Element("link")
                 }).ToList();
@@ -777,6 +945,8 @@ namespace WowGameInfo
             await ReplyAsync(embed: embed);
         }
     }
+
+
     public class NewsModule : ModuleBase<SocketCommandContext>
     {
         [Command("news")]
@@ -794,6 +964,313 @@ namespace WowGameInfo
 
             await ReplyAsync(embed: embed);
         }
-    }
 
+        [Command("recherche")]
+        public async Task RechercheAsync([Remainder] string terme)
+        {
+            var url = $"https://www.wowhead.com/search?q={Uri.EscapeDataString(terme)}";
+
+            var embed = new EmbedBuilder()
+                .WithTitle($"🔍 Résultat de recherche pour : {terme}")
+                .WithDescription("Clique ci-dessous pour consulter les résultats sur Wowhead.")
+                .WithUrl(url)
+                .WithColor(Color.Gold)
+                .Build();
+
+            await ReplyAsync(embed: embed);
+        }
+        [Command("meteo")]
+        public async Task MeteoAsync([Remainder] string zone)
+        {
+            var embed = new EmbedBuilder()
+                .WithTitle($"☁️ Météo dans {zone}")
+                .WithDescription($"Dans **{zone}**, les conditions sont souvent :\n🌧️ Pluie légère\n🌫️ Brouillard magique\n🌞 Éclaircies solaires")
+                .WithColor(Color.LightGrey)
+                .WithFooter("Estimation roleplay, pas en temps réel")
+                .Build();
+
+            await ReplyAsync(embed: embed);
+        }
+        [Command("craft")]
+        public async Task CraftAsync([Remainder] string objet)
+        {
+            var url = $"https://www.wowhead.com/search?q={Uri.EscapeDataString(objet)}";
+            var embed = new EmbedBuilder()
+                .WithTitle($"🛠️ Guide de craft : {objet}")
+                .WithDescription("Consulte les composants et plans nécessaires.")
+                .WithUrl(url)
+                .WithColor(Color.Orange)
+                .Build();
+
+            await ReplyAsync(embed: embed);
+        }
+        [Command("sac")]
+        public async Task SacAsync()
+        {
+            var embed = new EmbedBuilder()
+                .WithTitle("🎒 Gestion d'inventaire")
+                .WithDescription("💡 Astuces :\n- Trie régulièrement les sacs.\n- Utilise des sacs spécialisés (herboriste, mineur…)\n- Vends les objets gris automatiquement avec un addon comme Scrap.")
+                .WithColor(Color.DarkOrange)
+                .Build();
+
+            await ReplyAsync(embed: embed);
+        }
+        [Command("reputations")]
+        public async Task ReputationsAsync()
+        {
+            var embed = new EmbedBuilder()
+                .WithTitle("📜 Réputations importantes")
+                .WithDescription("Voici quelques réputations clés à monter pour du stuff ou des recettes.")
+                .AddField("👑 Kirin Tor", "[Voir](https://www.wowhead.com/faction=1090/kirin-tor)")
+                .AddField("🐉 Accord d’Alexstrasza", "[Voir](https://www.wowhead.com/faction=2507/dragonscale-expedition)")
+                .AddField("☯️ Pandashan", "[Voir](https://www.wowhead.com/faction=1271/shado-pan)")
+                .AddField("⚔️ Main de l’Aube", "[Voir](https://www.wowhead.com/faction=529/the-argent-dawn)")
+                .WithColor(Color.Teal)
+                .Build();
+
+            await ReplyAsync(embed: embed);
+        }
+        [Command("addons")]
+        public async Task AddonsAsync()
+        {
+            var embed = new EmbedBuilder()
+                .WithTitle("📦 Addons WoW recommandés")
+                .AddField("🔎 Details (DPS Meter)", "[Lien CurseForge](https://www.curseforge.com/wow/addons/details)")
+                .AddField("📜 WeakAuras", "[Lien CurseForge](https://www.curseforge.com/wow/addons/weakauras-2)")
+                .AddField("🧹 Leatrix Plus", "[Lien CurseForge](https://www.curseforge.com/wow/addons/leatrix-plus)")
+                .AddField("📦 Bagnon (inventaire)", "[Lien CurseForge](https://www.curseforge.com/wow/addons/bagnon)")
+                .WithColor(Color.Blue)
+                .Build();
+
+            await ReplyAsync(embed: embed);
+        }
+        [Command("pvpmeta")]
+        public async Task PvpMetaAsync()
+        {
+            var embed = new EmbedBuilder()
+                .WithTitle("⚔️ Top classes PvP (3v3 Arena)")
+                .AddField("1️⃣ Guerrier Armes", "Haute pression & burst")
+                .AddField("2️⃣ Chaman Amélioration", "Utility + burst")
+                .AddField("3️⃣ Démoniste Affliction", "Contrôle + DoTs")
+                .WithUrl("https://www.skill-capped.com/")
+                .WithColor(Color.Red)
+                .Build();
+
+            await ReplyAsync(embed: embed);
+        }
+        [Command("sitesutiles")]
+        public async Task SitesUtilesAsync()
+        {
+            var embed = new EmbedBuilder()
+                .WithTitle("🌍 Sites incontournables WoW")
+                .AddField("🔎 Wowhead", "https://www.wowhead.com/")
+                .AddField("📘 Icy Veins (Guides)", "https://www.icy-veins.com/wow/")
+                .AddField("📊 WarcraftLogs", "https://www.warcraftlogs.com/")
+                .AddField("🛠️ CurseForge", "https://www.curseforge.com/")
+                .AddField("📡 MMO-Champion", "https://www.mmo-champion.com/")
+                .WithColor(Color.Purple)
+                .Build();
+
+            await ReplyAsync(embed: embed);
+        }
+        [Command("objectifs")]
+        public async Task ObjectifsAsync()
+        {
+            var embed = new EmbedBuilder()
+                .WithTitle("🎯 Objectifs hebdo WoW")
+                .WithDescription("Voici ce que tu peux viser chaque semaine :")
+                .AddField("🗺️ Expéditions", "Fais au moins 4 quêtes de faction.")
+                .AddField("🛡️ Donjons Mythiques", "Complète au moins un +10 pour la grande chambre.")
+                .AddField("⚔️ PVP hebdo", "Gagne des matchs cotés pour des récompenses.")
+                .AddField("🏆 Tour des Mages", "[Infos ici](https://www.icy-veins.com/wow/mage-tower-guide)")
+                .WithColor(Color.Gold)
+                .Build();
+
+            await ReplyAsync(embed: embed);
+        }
+        [Command("megalore")]
+        public async Task MegaLoreAsync()
+        {
+            var embed = new EmbedBuilder()
+                .WithTitle("📖 Méga Lore de World of Warcraft")
+                .WithDescription("Voyage à travers toute l’histoire de World of Warcraft. Chaque extension, chaque conflit, chaque héros. 🌍")
+                .WithColor(Color.DarkPurple)
+                .WithFooter("Sources officielles : WoWpedia, Wowhead, Blizzard");
+
+            embed
+                .AddField("🧙 Classic (Vanilla)", "[Résumé complet](https://wowpedia.fandom.com/wiki/Timeline_(WoW)) – Le monde d’Azeroth renaît après les guerres. Premiers conflits entre races, guerre contre le Fléau et résurgence de la Légion.")
+                .AddField("🔥 The Burning Crusade", "[Histoire](https://wowpedia.fandom.com/wiki/The_Burning_Crusade) | [Zones](https://www.wowhead.com/outland) – Illidan, les Naaru, l'Outreterre. Le portail noir est ouvert…")
+                .AddField("☠️ Wrath of the Lich King", "[Lore](https://wowpedia.fandom.com/wiki/Wrath_of_the_Lich_King) | [Arthas](https://wowpedia.fandom.com/wiki/Arthas_Menethil) – La croisade vers Norfendre. Le roi-liche attend au sommet de la Citadelle.")
+                .AddField("🌋 Cataclysm", "[Histoire](https://wowpedia.fandom.com/wiki/Cataclysm) | [Aile de Mort](https://wowpedia.fandom.com/wiki/Deathwing) – Azeroth est déchirée par les éléments. Nouvelles zones et races.")
+                .AddField("🐼 Mists of Pandaria", "[Pandarie](https://wowpedia.fandom.com/wiki/Mists_of_Pandaria) | [Sha](https://wowpedia.fandom.com/wiki/Sha) – L’Empire Pandaren, ses secrets, et le retour de la guerre entre factions.")
+                .AddField("⚙️ Warlords of Draenor", "[Draenor](https://wowpedia.fandom.com/wiki/Warlords_of_Draenor) | [Gul'dan](https://wowpedia.fandom.com/wiki/Gul%27dan) – Une timeline parallèle, la Horde de Fer, et les origines des orcs.")
+                .AddField("💚 Legion", "[Lore](https://wowpedia.fandom.com/wiki/Legion_(expansion)) | [Illidan](https://wowpedia.fandom.com/wiki/Illidan_Stormrage) – L’assaut final de la Légion ardente. Artefacts, titans et rédemption.")
+                .AddField("⚔️ Battle for Azeroth", "[Conflit global](https://wowpedia.fandom.com/wiki/Battle_for_Azeroth) | [Sylvanas](https://wowpedia.fandom.com/wiki/Sylvanas_Windrunner) – Azerite, anciens dieux, Teldrassil en feu.")
+                .AddField("💀 Shadowlands", "[Au-delà](https://wowpedia.fandom.com/wiki/Shadowlands) | [Le Geôlier](https://wowpedia.fandom.com/wiki/The_Jailer) – La mort a une volonté, et Sylvanas brise le voile.")
+                .AddField("🐉 Dragonflight", "[Îles aux dragons](https://wowpedia.fandom.com/wiki/Dragonflight) | [Aspects](https://wowpedia.fandom.com/wiki/Dragonflight_(faction)) – Les aspects reviennent, l’ancien monde s’éveille.")
+                .AddField("🌸 MoP Classic", "[Annonce Blizzard](https://worldofwarcraft.blizzard.com/fr-fr/news/24031582) – Le retour de Pandarie en version Classic. Lore intact et nostalgie assurée !");
+
+            await ReplyAsync(embed: embed.Build());
+        }
+        [Command("spotfarm")]
+        public async Task SpotFarmAsync([Remainder] string ressource)
+        {
+            var url = $"https://www.wow-professions.com/farming/{Uri.EscapeDataString(ressource.ToLower())}";
+
+            var embed = new EmbedBuilder()
+                .WithTitle($"🌾 Zones de farm pour : {ressource}")
+                .WithDescription("Voici une route de farm recommandée.")
+                .WithUrl(url)
+                .WithColor(Color.Green)
+                .Build();
+
+            await ReplyAsync(embed: embed);
+        }
+        [Command("wowfunfact")]
+        public async Task WowFunFactAsync()
+        {
+            string[] facts =
+            {
+        "La danse du troll mâle est inspirée de MC Hammer.",
+        "Il existe un PNJ du nom de Linken dans Un’Goro Crater – clin d’œil à Zelda.",
+        "La lune de Draenor s'appelle Argus, qui deviendra une planète visitable plus tard.",
+        "Thrall a été doublé par Chris Metzen, créateur de WoW."
+    };
+
+            await ReplyAsync($"🎉 **Fun Fact WoW :** {facts[new Random().Next(facts.Length)]}");
+        }
+        [Command("serveursactifs")]
+        public async Task ServeursActifsAsync()
+        {
+            var embed = new EmbedBuilder()
+                .WithTitle("🖥️ Statut des serveurs européens")
+                .WithDescription("Consulte les statuts officiels des royaumes Blizzard :")
+                .WithUrl("https://eu.battle.net/support/fr/article/76459")
+                .WithColor(Color.Orange)
+                .Build();
+
+            await ReplyAsync(embed: embed);
+        }
+        [Command("metapvp")]
+        public async Task MetaPvpAsync()
+        {
+            var embed = new EmbedBuilder()
+                .WithTitle("⚔️ Méta PvP actuelle")
+                .WithDescription("Top classes en arène & champs de bataille (patch récent).")
+                .AddField("🥇 Spé top", "Guerrier Armes, Chasseur Survie, Moine Marche-vent")
+                .AddField("💡 Source", "[Wowhead PvP Meta](https://www.wowhead.com/guides/pvp-tier-list-ranked-arena-class-spec)")
+                .WithColor(Color.DarkBlue)
+                .Build();
+
+            await ReplyAsync(embed: embed);
+        }
+        [Command("tournoi")]
+        public async Task TournoiAsync()
+        {
+            var embed = new EmbedBuilder()
+                .WithTitle("🎯 Prochains tournois WoW e-sport")
+                .WithDescription("Suivez les événements compétitifs !")
+                .AddField("🔴 Live & archives", "[YouTube AWC](https://www.youtube.com/user/WoWEsports)")
+                .AddField("📅 Calendrier", "[Blizzard Arena Schedule](https://worldofwarcraft.blizzard.com/en-us/esports)")
+                .WithColor(Color.Red)
+                .Build();
+
+            await ReplyAsync(embed: embed);
+        }
+        [Command("métier")]
+        public async Task MetierAsync([Remainder] string metier)
+        {
+            var url = $"https://www.wow-professions.com/{Uri.EscapeDataString(metier.ToLower())}-guide";
+
+            var embed = new EmbedBuilder()
+                .WithTitle($"🔨 Guide métier : {metier}")
+                .WithDescription("Guide complet pour monter le métier efficacement.")
+                .WithUrl(url)
+                .WithColor(Color.Orange)
+                .Build();
+
+            await ReplyAsync(embed: embed);
+        }
+        [Command("lieuxrp")]
+        public async Task LieuxRpAsync()
+        {
+            var embed = new EmbedBuilder()
+                .WithTitle("🎭 Lieux RP emblématiques")
+                .WithDescription("Envie de jouer un elfe noble ou un troll mystique ?")
+                .AddField("🌲 Bois de la pénombre", "Ambiance gothique idéale.")
+                .AddField("⚙️ Quartier de Forgefer", "RP nain, tavernes et forges.")
+                .AddField("🪶 Cabestan", "Parfait pour du RP pirate/marchand.")
+                .WithColor(Color.Purple)
+                .Build();
+
+            await ReplyAsync(embed: embed);
+        }
+        [Command("livreswow")]
+        public async Task LivresWowAsync()
+        {
+            var embed = new EmbedBuilder()
+                .WithTitle("📚 Romans officiels de WoW")
+                .WithDescription("Plonge dans le lore avec ces récits :")
+                .AddField("• Arthas: Rise of the Lich King", "[Amazon](https://www.amazon.fr/dp/1416550947)")
+                .AddField("• Illidan", "[Amazon](https://www.amazon.fr/dp/0399177562)")
+                .AddField("• War Crimes", "[Amazon](https://www.amazon.fr/dp/1451684482)")
+                .WithColor(Color.Teal)
+                .Build();
+
+            await ReplyAsync(embed: embed);
+        }
+        [Command("astrologie")]
+        public async Task AstrologieAsync()
+        {
+            string[] signes = { "Soleil de Hurlevent", "Lune de Lune-d’Argent", "Éclipse d’Ahn’Qiraj" };
+            string[] predictions = {
+        "Une grande aventure vous attend dans les Terres Ingrates.",
+        "L’amour frappera à la porte de votre guilde.",
+        "Faites attention à votre équipement, il pourrait se briser bientôt !"
+    };
+
+            var r = new Random();
+            await ReplyAsync($"🔮 Signe : **{signes[r.Next(signes.Length)]}**\n📘 Prophétie : *{predictions[r.Next(predictions.Length)]}*");
+        }
+        [Command("playlistwow")]
+        public async Task PlaylistWowAsync()
+        {
+            await ReplyAsync("🎼 Playlist épique WoW sur YouTube :\nhttps://www.youtube.com/watch?v=DSUIhVAeTHQ&list=PLRQGRBgN_EnT1wYVbGyxPlFD3XrOrH-5r");
+        }
+        [Command("histoirejour")]
+        public async Task HistoireJourAsync()
+        {
+            var histoires = new[]
+            {
+        "📜 *Il était une fois un orc nommé Grommash Hurlenfer...*",
+        "📜 *Sylvanas Windrunner ne craignait rien... sauf le vide en elle.*",
+        "📜 *Le vol draconique noir complotait dans les profondeurs...*"
+    };
+            await ReplyAsync(histoires[new Random().Next(histoires.Length)]);
+        }
+        [Command("siteofficiel")]
+        public async Task SiteOfficielAsync()
+        {
+            await ReplyAsync("🌐 [Site officiel World of Warcraft](https://worldofwarcraft.blizzard.com/)");
+        }
+
+        [Command("boutique")]
+        public async Task BoutiqueAsync()
+        {
+            await ReplyAsync("🛒 Boutique Blizzard :\nhttps://shop.battle.net/");
+        }
+
+        [Command("support")]
+        public async Task SupportAsync()
+        {
+            await ReplyAsync("🛠️ Support officiel :\nhttps://eu.battle.net/support/fr/");
+        }
+
+        [Command("forums")]
+        public async Task ForumsAsync()
+        {
+            await ReplyAsync("💬 Forums communautaires :\nhttps://eu.forums.blizzard.com/fr/wow/");
+        }
+
+    }
 }
