@@ -1,6 +1,6 @@
 # 🧙 WoWGameInfo – Discord Bot pour World of Warcraft
 
-**WoWGameInfo** est un bot Discord communautaire dédié à l’univers de **World of Warcraft**, toutes extensions confondues (Classic, Retail, MoP, etc.). Il fournit des quiz, des infos, des vidéos, du lore, des builds, des routes de farm, des actualités, et bien plus encore !
+**WoWGameInfo** est un bot Discord communautaire dédié à l’univers de **World of Warcraft**, toutes extensions confondues (Classic, Retail, MoP, etc.). Il fournit quiz, actualités, guides PvE, lore, événements, RSS, farming, et bien plus encore via des **commandes classiques** et **Slash Commands UX-Friendly** !
 
 ---
 
@@ -9,56 +9,61 @@
 ### 🎮 Quiz & Classements
 - `!quiz` – Lance un quiz aléatoire sur WoW
 - `!reponse <ta_réponse>` – Tente ta chance
-- `!points` – Affiche ton score
-- `!classement` – Top 5 des joueurs
+- `!points`, `!classement` – Scores et top joueurs
 
 ### 📘 Lore & Histoire
-- `!lore <perso>` – Infos lore d’un personnage
-- `!boss`, `!zones`, `!capitales` – Univers du jeu
-- `!extensions`, `!factions`, `!classes`, `!races`
-- `!livreswow` – Romans officiels de Blizzard
-- `!lieuxrp` – Suggestions RP immersives
+- `/lore-encyclopedia <sujet>` – Exploration approfondie du lore via Wowpedia
+- `/boss`, `/zones`, `/zone-info`, `/zone-activity` – Infos détaillées des zones
+- `/lore-sites` – Liens utiles sur l’univers narratif de WoW
 
-### 🛠️ Builds & Métiers
-- `!build <classe>` – Guide PvE Icy-Veins
-- `!rotation <classe>` – Rotation DPS
-- `!talents <classe>` – Arbre interactif Wowhead
-- `!métier <nom>` – Guide profession wow-professions
+### 🛠️ Builds, Profils & Métiers
+- `/build <classe>` – Guide PvE par classe
+- `/build-auto <classe>` – Reco complète : talents, rotation, addons
+- `/class-guide <classe> <spé>` – Guide spécialisé
+- `/setup-profile` – Profil joueur personnalisé (RP, faction, classe)
+- `/professions` – Liste et ressources métiers
 
-### 🏰 Donjons & Raids
-- `!donjons` – Suggestions par niveau
-- `!raid <extension>` – Raids majeurs
-- `!reset` – Prochain reset hebdomadaire
+### 🏰 Raids, Zones & Donjons
+- `/boss`, `/zone-explorer` – Infos RP, activités contextuelles
+- `/events`, `/world-event` – Activités mondiales en jeu
 
-### 🎥 Vidéos & Actualités
-- `!videointro`, `!videoraid`, `!videobuild <classe>`, `!videoaddon`
-- `!videoactualite`, `!news`, `!newsrss`
-- `!tournoi` – Suivre l’eSport WoW
+### 🎥 Vidéos & Actus
+- `/youtube` – Chaînes utiles (guides, lore, actu)
+- `/newsrss` – Dernières news via flux RSS (BlueTracker, Wowhead)
+- `/menu` – Interface complète avec liens et raccourcis
 
-### 🌿 Farming & Conseils
-- `!routefarm <ressource>` – Zones conseillées
-- `!farm` – Spot conseillé
-- `!astuce`, `!citation`, `!anecdote`, `!defi`
-
-### 🔍 Recherches & Extras
-- `!recherche <terme>` – Résultats Wowhead
-- `!faq`, `!serveurs`, `!heureeu`
+### 🌿 Farming & Ressources
+- `!routefarm <ressource>` – Conseils de farming
+- `/zone-activity <zone>` – Activité contextuelle dynamique
 
 ---
 
-## 🚀 Slash Commands & Interaction UI
+## 🚀 Slash Commands & UI Interactive
 
-- `/help` – Menu interactif avec boutons par catégories
-- Boutons : 🎮 Quiz, 📘 Lore, 🧠 Builds, 🏰 Raids, 🎥 Vidéos
+- `/help` – Menu général avec catégories (Quiz, Lore, Builds, etc.)
+- Boutons : 🎮 Quiz | 📘 Lore | 🧠 Builds | 🏰 Raids | 🎥 Vidéos
+- Menus dynamiques (buttons, embeds riches, ephemeral UI)
+
+---
+
+## 💎 Exemples de Slash Commands Avancées
+
+- `/setup-profile` – Faction, classe, style de jeu
+- `/lore-encyclopedia illidan` – Accès rapide à Wowpedia
+- `/zone-explorer durotar` – RP zone immersive
+- `/build-auto paladin` – Build complet auto avec liens
+- `/class-guide druide équilibre` – Guide icy-veins précis
 
 ---
 
 ## 🧠 Technologies
 
-- `.NET 7 / 8+` avec C#
+- `.NET 8+` / `C#`
 - [Discord.Net v3.12+](https://github.com/discord-net/Discord.Net)
-- Support des **Commandes classiques** & **Slash**
-- Modules intégrés en classes C#
+- Prise en charge :
+  - Commandes classiques (`!`)
+  - Slash Commands (`/`)
+  - UI Discord : Buttons, Menus, Embeds
 
 ---
 
